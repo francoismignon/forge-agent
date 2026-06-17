@@ -47,5 +47,13 @@ def add_task():
     return jsonify({"error": "title is required"}), 400
 
 
+@app.route("/api/tasks/<int:task_id>", methods=["DELETE"])
+def delete_task(task_id):
+    if task_id < 0 or task_id >= len(TASKS):
+        return jsonify({"error": "Task not found"}), 404
+    task = TASKS.pop(task_id)
+    return jsonify({"status": "deleted", "task": task}), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80, debug=True)
